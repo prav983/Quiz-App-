@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
+    
+    
+	<title>This is a quiz App</title>
+    <style>
+        *{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body
+{
+    background-color: #3498db;
+}
+.main{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#box{
+    width: 40%;
+   
+    padding: 15px;
+    box-shadow: 0px 0px 5px green;
+    background-color: #fffaf0;
+    border-radius: 5px;
+   
+}
+.row{
+    width: 100%;
+    margin: 2rem;
+    margin-left: 0;
+}
+.btn{
+    width: 100%;
+    padding: 5px;
+    background-color: #3498db;
+    font-size: 20px;
+    color: white;
+    border-radius: 5px;
+    border:none
+}
+
+  
+.attractive-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+    background: linear-gradient(45deg, #f06, #9053ff);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s, color 0.2s;
+  }
+  
+  /* Hover effect */
+  .attractive-button:hover {
+    background: linear-gradient(45deg, #9053ff, #f06);
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    color: #fff;
+  }
+  
+    </style>
+</head>
+<body>
+        <div class="main">
+            <div id="box">
+                
+                     <h2 id="quesBox">1. This is the dummy question </h2>
+                    <div class="row">
+                        <tr>                    
+                      <input class="options" id="option1" type="radio" value="a" name="option">
+                      &nbsp  <label for="option1">  Option 1 </label>
+                    </tr>
+
+                    </div>
+
+                    <div class="row">
+                       
+                        <input  class="options" id="option2" type="radio" value="b" name="option">
+                        &nbsp  <label for="Option2">  Option 1 </label>
+                        
+                    </div>
+
+                    <div class="row">
+                        <input  class="options" id="option3" type="radio" value="c" name="option">
+                        &nbsp  <label for="option3">  Option 1 </label>
+                       
+                    </div>
+
+                    <div class="row">
+                       
+                        <input  class="options" id="option4" type="radio" value="d" name="option">
+                        &nbsp  <label for="Option4">  Option 1 </label>
+                       
+                    </div>
+
+
+
+                    
+
+
+
+                    <button class="btn attractive-button" onclick="submitQuiz()">
+                        Submit
+                    </button>
+            </div>
+        
+
+        </div>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> -->
+ 
+        <script>
+            const questions = [
+    {
+        'que':'Which of the following is a markup language ?',
+        'a':'HTML',
+        'b': 'CSS',
+        'c': 'JavaScript',
+        'd': 'PHP',
+        'correct': 'a'
+    }
+    ,
+    {
+        'que':'What year was JavaScript launched ?',
+        'a':'1996',
+        'b': '1995',
+        'c': '1994',
+        'd': 'none of the above',
+        'correct': 'b'
+    }
+    ,
+    {
+        'que':'What does CSS stands for ?',
+        'a':'Hypertext Markup Language',
+        'b': 'Cascading Style Sheet',
+        'c': 'Json Object Notation ',
+        'd': 'Helocopters Terminals Motorboats Lamborginis',
+        'correct': 'b'
+    }
+]
+let index = 0;
+let total = questions.length;
+let right =0;
+let wrong =0;
+const quesBox = document.getElementById('quesBox');
+const optionInputs = document.querySelectorAll('.options');
+const loadQuestion = () => {
+    if(index === total)
+    {
+       return endQuiz() 
+    }
+    reset(); 
+  const data = questions[index];
+  quesBox.innerText = `${index + 1}) ${data.que}`;
+  optionInputs[0].nextElementSibling.innerText = data.a;
+  optionInputs[1].nextElementSibling.innerText = data.b;
+  optionInputs[2].nextElementSibling.innerText = data.c;
+  optionInputs[3].nextElementSibling.innerText = data.d;
+}
+const submitQuiz = () => {
+    const data = questions[index];
+    const ans = getAnswer();
+    if (ans === data.correct) {
+      right++;
+    } else {
+      wrong++;
+    }
+    index++;
+    loadQuestion();
+    return;
+  }
+  
+  const getAnswer = () => {
+    for (const input of optionInputs) {
+      if (input.checked) {
+        return input.value;
+      }
+    }
+    return null; // Return null (or another appropriate value) if no input is checked
+  }
+  const reset = () =>
+  {
+    optionInputs.forEach(
+        (input)=>{
+            input.checked =false;
+        }
+    )
+  }
+  const endQuiz =() =>{
+    document.getElementById("box").innerHTML= `<center><u><h3>Thank you for playing the quiz</h3></u></center>
+    
+    <h2> ${right} / ${total} are correct</h2>`
+  }
+  loadQuestion();
+  
+        </script>
+</body>
+</html>
